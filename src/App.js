@@ -1,15 +1,19 @@
 import React, { Component } from 'react'
-import  Nav from './Nav';
-
+import  Nav from './components/Nav';
+import { Routes, Route, BrowserRouter as Router } from 'react-router-dom';
+import Home from './views/Home';
+import Login from './views/Login';
+import Footer from './components/Footer';
+import News from './views/News';
+import IG from './views/IG';
 
 export default class App extends Component {
   constructor(){
     super();
     this.state = {
       user: null,
-      post: [],
       name: 'Shoha',
-      age: 9000
+      age: 9001
       }
 
     console.log('construction is done')
@@ -33,15 +37,25 @@ export default class App extends Component {
   render() {
     console.log('rendering is about to happen')
     return (
-      <div>
-        <Nav/>
 
+      <Router>
+        <div>
+          <Nav/>
+          
+          <Routes>
 
-        <h1>Hello</h1>
-        <h3>The name is {this.state['name']}: {this.state.age} </h3>
-        <button onClick={this.happyBirthday} >Add to age +</button>
+            <Route path='/' element={<Home age={this.state.age} x={this.happyBirthday}/>}/>
+            <Route path='/login' element={<Login />}/>
+            <Route path='/signup'/>
+            <Route path='/feed' element={<IG />}/>
+            <Route path='/news' element={<News />}/>
 
-      </div>
+          </Routes>
+
+          <Footer />
+          
+        </div>
+      </Router>
     )
   }
 }
