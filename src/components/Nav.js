@@ -17,14 +17,34 @@ export default class Nav extends Component {
                                 <Link className="nav-link active" aria-current="page" to="/">Home</Link>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link" to="/login">Login</Link>
-                            </li>
-                            <li className="nav-item">
                                 <Link className="nav-link" to="/news">News</Link>
                             </li>
                             <li className="nav-item">
                                 <Link className="nav-link" to="/feed">IG</Link>
                             </li>
+                            
+                            {console.log(this.props.user.username)}
+                            {this.props.user.username?
+                            <>
+                                <li className="nav-item">
+                                    <Link className="nav-link" to="/login" onClick={()=>{this.props.logMeOut()}}>Log Out</Link>
+                                </li>
+                                <li className="nav-item">
+                                    <p className="nav-link" >Hello, {this.props.user.username}</p>
+                                </li>
+                            </>
+                            :
+                            <>
+                                <li className="nav-item">
+                                    <Link className="nav-link" to="/login">Login</Link>
+                                </li>
+                                <li className="nav-item">
+                                    <Link className="nav-link" to="/signup">Sign Up</Link>
+                                </li>
+                            </>
+                            }
+
+
                         </ul>
                     </div>
                 </div>

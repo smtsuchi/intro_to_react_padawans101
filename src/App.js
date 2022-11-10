@@ -6,18 +6,35 @@ import Login from './views/Login';
 import Footer from './components/Footer';
 import News from './views/News';
 import IG from './views/IG';
+import SignUp from './views/SignUp';
 
 export default class App extends Component {
   constructor(){
     super();
     this.state = {
-      user: null,
+      user: {},
       name: 'Shoha',
-      age: 9001
+      age: 9001,
+      message: {}
       }
 
     console.log('construction is done')
   }
+
+  logMeIn = (user) => {
+    this.setState({
+      user: user
+    })
+  };
+  logMeOut = () => {
+    this.setState({
+      user: {}
+    })
+  };
+
+  addMessage = (msg, category) => {
+    this.setState({message: {message: msg, category: category}})
+  };
 
   componentDidMount = () => {
     console.log('first rendering is completed (MOUNTED!!!!)')
@@ -40,13 +57,14 @@ export default class App extends Component {
 
       <Router>
         <div>
-          <Nav/>
+          <Nav user={this.state.user} logMeOut={this.logMeOut}/>
+          <p className={`bg-${this.state.message.category}`}>{this.state.message.message}</p>
           
           <Routes>
 
             <Route path='/' element={<Home age={this.state.age} x={this.happyBirthday}/>}/>
-            <Route path='/login' element={<Login />}/>
-            <Route path='/signup'/>
+            <Route path='/login' element={<Login logMeIn={this.logMeIn} addMessage={this.addMessage}/>}/>
+            <Route path='/signup'element={<SignUp addMessage={this.addMessage}/>}/>
             <Route path='/feed' element={<IG />}/>
             <Route path='/news' element={<News />}/>
 

@@ -35,7 +35,7 @@ export default class News extends Component {
                     <button type='submit'>Search</button>
                 </form>
                 <div className='row'>
-                    {this.state.articles.map(a => <Article article={a}/>)}
+                    {this.state.articles.map((a,index) => <Article article={a} key={index}/>)}
                 </div>
             </>
         )

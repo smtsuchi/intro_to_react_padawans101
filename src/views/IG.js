@@ -11,7 +11,7 @@ export default class IG extends Component {
 
 
     showPosts = () => {
-        return this.state.posts.map(p => <Post p={p}/> )
+        return this.state.posts.map(p => <Post p={p} key={p.id}/> )
     }
 
 
