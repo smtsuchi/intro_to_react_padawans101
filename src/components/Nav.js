@@ -23,9 +23,12 @@ export default class Nav extends Component {
                                 <Link className="nav-link" to="/feed">IG</Link>
                             </li>
                             
-                            {console.log(this.props.user.username)}
+                            
                             {this.props.user.username?
                             <>
+                                <li className="nav-item">
+                                    <Link className="nav-link" to="/posts/create" >Create Post</Link>
+                                </li>
                                 <li className="nav-item">
                                     <Link className="nav-link" to="/login" onClick={()=>{this.props.logMeOut()}}>Log Out</Link>
                                 </li>
@@ -54,9 +57,6 @@ export default class Nav extends Component {
     }
 }
 
-export const hello = 1234
-
-export const hi = 5432
 
 
 
