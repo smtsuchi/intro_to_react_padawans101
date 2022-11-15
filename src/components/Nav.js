@@ -3,6 +3,16 @@ import { Link } from 'react-router-dom';
 
 export default class Nav extends Component {
 
+    getTotal = (cart) => {
+        let total = 0;
+        for (let item of cart) {
+            // console.log(item)
+            total = total + parseFloat(item.price)
+            // console.log(total)
+        }
+        return total.toFixed(2)
+    }
+
     render() {
         return (
             <nav className="navbar navbar-expand-lg bg-light">
@@ -21,6 +31,9 @@ export default class Nav extends Component {
                             </li>
                             <li className="nav-item">
                                 <Link className="nav-link" to="/feed">IG</Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link className="nav-link" to="/shop">Shop</Link>
                             </li>
                             
                             
@@ -46,6 +59,9 @@ export default class Nav extends Component {
                                 </li>
                             </>
                             }
+                            <li className="nav-item">
+                                <Link className="nav-link" to="/cart">{this.props.cart.length} | {this.getTotal(this.props.cart)}</Link>
+                            </li>
 
 
                         </ul>

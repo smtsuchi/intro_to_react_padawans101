@@ -8,6 +8,10 @@ import News from './views/News';
 import IG from './views/IG';
 import SignUp from './views/SignUp';
 import CreatePost from './views/CreatePost';
+import IndividualPost from './views/IndividualPost';
+import UpdatePost from './views/UpdatePost';
+import Shop from './views/Shop';
+import Cart from './views/Cart';
 
 export default class App extends Component {
   constructor(){
@@ -16,11 +20,16 @@ export default class App extends Component {
       user: {},
       name: 'Shoha',
       age: 9001,
-      message: {}
+      message: {},
+      cart: []
       }
 
     console.log('construction is done')
   }
+
+  addToCart = (product) => {
+    this.setState({cart: [...this.state.cart, product]})
+  };
 
   logMeIn = (user) => {
     this.setState({
@@ -58,7 +67,7 @@ export default class App extends Component {
 
       <Router>
         <div>
-          <Nav user={this.state.user} logMeOut={this.logMeOut}/>
+          <Nav user={this.state.user} logMeOut={this.logMeOut} cart={this.state.cart}/>
           <p className={`bg-${this.state.message.category}`}>{this.state.message.message}</p>
           
           <Routes>
@@ -69,7 +78,10 @@ export default class App extends Component {
             <Route path='/feed' element={<IG />}/>
             <Route path='/news' element={<News />}/>
             <Route path='/posts/create' element={<CreatePost user={this.state.user}/>}/>
-
+            <Route path='/posts/:postId'element={<IndividualPost user={this.state.user}/>}/>
+            <Route path='/posts/update/:postId'element={<UpdatePost user={this.state.user}/>}/>
+            <Route path='/shop' element={<Shop addToCart={this.addToCart}/>}/>
+            <Route path='/cart' element={<Cart cart={this.state.cart} removeFromCart={this.removeFromCart}/>} />
           </Routes>
 
           <Footer />

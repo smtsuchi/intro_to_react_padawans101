@@ -5,7 +5,7 @@ export default class Post extends Component {
   render() {
     const post = this.props.p
     return (
-        <a className="card text-decoration-none text-dark" style={{width: '18rem'}} href="{ url_for('ig.viewSinglePost', post_id=post.id) }">
+        <div className="card text-decoration-none text-dark" style={{width: '18rem'}} >
         <img src={ post.img_url } className="card-img-top" alt={ post.title }/>
         <div className="card-body">
           <h5 className="card-title">{ post.title }</h5>
@@ -13,7 +13,7 @@ export default class Post extends Component {
           <p className="card-text">{ post.caption }</p>
           
         </div>
-    </a>
+    </div>
     )
   }
 }
