@@ -35,7 +35,7 @@ export default function Cart({ cart, removeFromCart }) {
             </tr>
         </thead>
         <tbody>
-            {getUniqueCart(cart).map(c=><tr>
+            {getUniqueCart(cart).map((c,i)=><tr key={i}>
                 <td>{c.id}</td>
                 <td><img style={{height:'2rem'}} src={c.img_url}/></td>
                 <td>{c.product_name}</td>

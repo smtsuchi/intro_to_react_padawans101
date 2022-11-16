@@ -16,38 +16,112 @@ import Cart from './views/Cart';
 export default class App extends Component {
   constructor(){
     super();
-    this.state = {
-      user: {},
-      name: 'Shoha',
-      age: 9001,
-      message: {},
-      cart: []
-      }
+    
+    const foundUser = localStorage.getItem('user')
+    if (foundUser){
+      this.state = {
+        user: JSON.parse(foundUser),
+        name: 'Shoha',
+        age: 9001,
+        message: {},
+        cart: []
+        }
+    }
+    else{
+      this.state = {
+        user: {},
+        name: 'Shoha',
+        age: 9001,
+        message: {},
+        cart: []
+        }
+    }
+
+
+    
 
     console.log('construction is done')
   }
 
-  addToCart = (product) => {
+
+  addToCart = async (product) => {
     this.setState({cart: [...this.state.cart, product]})
+    if (this.state.user.token){
+      const res = await fetch('http://localhost:5000/api/cart/add', {
+        method: "POST",
+        body: JSON.stringify({'product_id': product.id}),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${this.state.user.token}`
+        }
+      });
+      const data = await res.json();
+      console.log(data)
+    }
   };
+  removeFromCart = async (product) => {
+    const newCart = [...this.state.cart];
+    for (let i = newCart.length-1; i>=0; i--){
+      if (product.id === newCart[i].id) {
+        newCart.splice(i, 1)
+        break
+      }
+    }
+    this.setState({cart: newCart})
+    if (this.state.user.token){
+      const res = await fetch('http://localhost:5000/api/cart/remove',{
+        method: "POST",
+        body:JSON.stringify({'product_id':product.id}),
+        headers:{
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${this.state.user.token}`
+        }
+      });
+      const data = await res.json();
+      console.log(data)
+    }
+  };
+  getCart = async (user) => {
+    const res = await fetch('http://localhost:5000/api/cart', {
+      method: "GET",
+      headers: {
+        "Authorization": `Bearer ${user.token}`
+      }
+    });
+    const data = await res.json();
+    console.log(data)
+    if (data.status==='ok'){
+      this.setState({cart:data.cart})
+    }
+  }
 
   logMeIn = (user) => {
+    localStorage.setItem('user', JSON.stringify(user))
+
     this.setState({
       user: user
     })
+    
+    this.getCart(user)
   };
   logMeOut = () => {
     this.setState({
-      user: {}
+      user: {},
+      cart: []
     })
+
+    localStorage.removeItem('user')
   };
 
   addMessage = (msg, category) => {
     this.setState({message: {message: msg, category: category}})
   };
 
-  componentDidMount = () => {
-    console.log('first rendering is completed (MOUNTED!!!!)')
+  componentDidMount = async() => {
+    if (this.state.user.token){
+      this.getCart(this.state.user)
+    }
+    
   }
 
   methodNumber3() {
