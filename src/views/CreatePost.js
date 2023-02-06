@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
+import { withNavigate } from '../hocs';
 
-export default class CreatePost extends Component {
+class CreatePost extends Component {
     constructor(){
         super();
         this.state = {
@@ -34,11 +35,14 @@ export default class CreatePost extends Component {
         const data = await res.json();
         console.log(data)
         if (data.status==='ok'){
-            this.setState({redirect:true})
+            this.props.navigate('/feed')
         }
     };
 
     render() {
+        if (!this.props.user.token){
+            return <Navigate to='/login' />
+        }
         if (this.state.redirect) {
             return <Navigate to='/feed'/>
         }
@@ -55,3 +59,5 @@ export default class CreatePost extends Component {
         )
     }
 }
+
+export default withNavigate(CreatePost)

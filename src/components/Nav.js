@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom';
+import { BsCart } from 'react-icons/bs'
 
 export default class Nav extends Component {
 
@@ -60,7 +61,9 @@ export default class Nav extends Component {
                             </>
                             }
                             <li className="nav-item">
-                                <Link className="nav-link" to="/cart">{this.props.cart.length} | {this.getTotal(this.props.cart)}</Link>
+                                <Link className="nav-link" to="/cart">
+                                    <BsCart /> {this.props.cart.length} | {this.getTotal(this.props.cart)}
+                                </Link>
                             </li>
 
 

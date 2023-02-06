@@ -1,11 +1,13 @@
-import React, { Component } from 'react'
+import React, { useContext } from 'react';
+import { ThemeContext } from '../context/ThemeContext';
 
-export default class Post extends Component {
-    
-  render() {
-    const post = this.props.p
-    return (
-        <div className="card text-decoration-none text-dark" style={{width: '18rem'}} >
+
+
+export default function Post({ p }) {
+  const darkTheme = useContext(ThemeContext)
+  const post = p
+  return (
+        <div className="card text-decoration-none text-dark" style={darkTheme?{backgroundColor:'black', width:'18rem'}:{width: '18rem'}} >
         <img src={ post.img_url } className="card-img-top" alt={ post.title }/>
         <div className="card-body">
           <h5 className="card-title">{ post.title }</h5>
@@ -15,5 +17,4 @@ export default class Post extends Component {
         </div>
     </div>
     )
-  }
 }

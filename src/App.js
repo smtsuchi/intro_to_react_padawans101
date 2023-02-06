@@ -12,10 +12,15 @@ import IndividualPost from './views/IndividualPost';
 import UpdatePost from './views/UpdatePost';
 import Shop from './views/Shop';
 import Cart from './views/Cart';
+import LoginRequired from './components/LoginRequired';
+import ThemeProvider from './context/ThemeContext';
+import { withContext } from './hocs';
 
-export default class App extends Component {
+class App extends Component {
   constructor(){
     super();
+
+    
     
     const foundUser = localStorage.getItem('user')
     if (foundUser){
@@ -118,6 +123,9 @@ export default class App extends Component {
   };
 
   componentDidMount = async() => {
+    console.log('hi')
+    console.log(this.props.appContext)
+    console.log('hi2')
     if (this.state.user.token){
       this.getCart(this.state.user)
     }
@@ -138,7 +146,7 @@ export default class App extends Component {
   render() {
     console.log('rendering is about to happen')
     return (
-
+      <ThemeProvider>
       <Router>
         <div>
           <Nav user={this.state.user} logMeOut={this.logMeOut} cart={this.state.cart}/>
@@ -151,9 +159,9 @@ export default class App extends Component {
             <Route path='/signup'element={<SignUp addMessage={this.addMessage}/>}/>
             <Route path='/feed' element={<IG />}/>
             <Route path='/news' element={<News />}/>
-            <Route path='/posts/create' element={<CreatePost user={this.state.user}/>}/>
+            <Route path='/posts/create' element={<LoginRequired user={this.state.user}><CreatePost user={this.state.user}/></LoginRequired>}/>
             <Route path='/posts/:postId'element={<IndividualPost user={this.state.user}/>}/>
-            <Route path='/posts/update/:postId'element={<UpdatePost user={this.state.user}/>}/>
+            <Route path='/posts/update/:postId'element={<LoginRequired user={this.state.user}><UpdatePost user={this.state.user}/></LoginRequired>}/>
             <Route path='/shop' element={<Shop addToCart={this.addToCart}/>}/>
             <Route path='/cart' element={<Cart cart={this.state.cart} removeFromCart={this.removeFromCart}/>} />
           </Routes>
@@ -162,6 +170,8 @@ export default class App extends Component {
           
         </div>
       </Router>
+      </ThemeProvider>
     )
   }
 }
+export default withContext(App);

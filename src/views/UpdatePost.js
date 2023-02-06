@@ -36,8 +36,8 @@ export default function UpdatePost({ user }) {
         const data = await res.json();
         console.log(data)
     };
-
-    return (
+    
+    return (    
         <div>
             <h1>Update a Post</h1>
             <form onSubmit={(e) => { sendPostInfo(e) }}>
